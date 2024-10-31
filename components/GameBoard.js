@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Pressable, Button, AsyncStorage } from "react-native";
+import { View, Text, Pressable, Button } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import {
@@ -9,7 +10,6 @@ import {
   MAX_SPOT,
   BONUS_POINTS_LIMIT,
   BONUS_POINTS,
-  MAX_SPOT,
   SCOREBOARD_KEY,
 } from "../constants/Game";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
