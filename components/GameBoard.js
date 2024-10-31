@@ -130,6 +130,11 @@ export const GameBoard = ({ navigation, route }) => {
     setDiceSpots(spots);
     setNumberOfThrowsLeft(nbrOfThrowsLeft - 1);
     setThrowsCount(throwsCount + 1);
+
+    // Unselect all dice after the third throw
+    if (nbrOfThrowsLeft === 1) {
+      setSelectedDices(new Array(NBR_OF_DICES).fill(false));
+    }
   };
 
   function getSpotTotal(i) {
