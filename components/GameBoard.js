@@ -76,10 +76,21 @@ export const GameBoard = ({ navigation, route }) => {
   }
 
   const selectDice = (i) => {
+    // Prevent selecting dice during restricted throws
+    if (isSelectionRestricted(throwsCount)) {
+      setStatus("Cannot select dice during this throw.");
+      return;
+    }
+
     let dices = [...selectedDices];
     dices[i] = !selectedDices[i];
     setSelectedDices(dices);
   };
+
+  function isSelectionRestricted(throwsCount) {
+    // Return true if throwsCount is 3, 4, 6, 7, etc.
+    return (throwsCount % 3 === 0) && (throwsCount > 0);
+  }
 
   function getDiceColor(i) {
     return selectedDices[i] ? "black" : "steelblue";
@@ -169,6 +180,10 @@ export const GameBoard = ({ navigation, route }) => {
     setSelectedDices(new Array(NBR_OF_DICES).fill(false));
     setSelectedDicePoints(new Array(MAX_SPOT).fill(false));
     setDicePointsTotal(new Array(MAX_SPOT).fill(0));
+    setDiceSpots(new Array(NBR_OF_DICES).fill(0)); // Clear dice spots
+    setNumberOfThrowsLeft(NBR_OF_THROWS); // Reset throws left when resetting the game
+    setStatus("Throw dices");
+    board = new Array(NBR_OF_DICES).fill(""); // Clear the board
   };
 
   const allPointsSelected = selectedDicePoints.every((point) => point);
@@ -199,9 +214,7 @@ export const GameBoard = ({ navigation, route }) => {
           Points left for bonus: {Math.max(0, 63 - calculateTotalPoints())}
         </Text>
         <Text style={{ marginTop: 20 }}>Total points: {calculateTotalPoints()} </Text>
-        {allPointsSelected && (
-          <Button title="Reset Game" onPress={resetGame} style={{ marginTop: 20 }} />
-        )}
+        <Button title="Reset Game" onPress={resetGame} style={{ marginTop: 20 }} />
       </View>
       <Footer />
     </>
