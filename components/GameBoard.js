@@ -22,7 +22,6 @@ export const GameBoard = ({ navigation, route }) => {
   const [nbrOfThrowsLeft, setNumberOfThrowsLeft] = useState(NBR_OF_THROWS);
   const [status, setStatus] = useState("Throw dices");
   const [throwsCount, setThrowsCount] = useState(0);
-
   const [selectedDices, setSelectedDices] = useState(new Array(NBR_OF_DICES).fill(false));
   const [diceSpots, setDiceSpots] = useState(new Array(NBR_OF_DICES).fill(0));
   const [selectedDicePoints, setSelectedDicePoints] = useState(new Array(MAX_SPOT).fill(false));
@@ -85,6 +84,7 @@ export const GameBoard = ({ navigation, route }) => {
     let dices = [...selectedDices];
     dices[i] = !selectedDices[i];
     setSelectedDices(dices);
+    clearStatusAfterDelay(); // Clear status message after a delay
   };
 
   function isSelectionRestricted(throwsCount) {
@@ -127,6 +127,7 @@ export const GameBoard = ({ navigation, route }) => {
     } else {
       setStatus("Throw " + NBR_OF_THROWS + " times before setting points");
     }
+    clearStatusAfterDelay(); // Clear status message after a delay
   };
 
   const throwDices = () => {
@@ -184,6 +185,12 @@ export const GameBoard = ({ navigation, route }) => {
     setNumberOfThrowsLeft(NBR_OF_THROWS); // Reset throws left when resetting the game
     setStatus("Throw dices");
     board = new Array(NBR_OF_DICES).fill(""); // Clear the board
+  };
+
+  const clearStatusAfterDelay = () => {
+    setTimeout(() => {
+      setStatus("");
+    }, 2000); // Status will disappear after 2 seconds
   };
 
   const allPointsSelected = selectedDicePoints.every((point) => point);
